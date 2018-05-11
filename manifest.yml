@@ -3,12 +3,9 @@ declared-services:
   noSqlDb:
     label: noSqlDb
     plan: Lite
-  mySql:
-    label: mySql
-    plan: Lite
 applications:
 - name: mentalrental
-  random-route: true
+  #random-route: true
   memory: 512M
   path: target/mentalrental.war
   buildpack: liberty-for-java
