@@ -1,4 +1,4 @@
-package example.nosql;
+package com.mentalrental;
 
 import java.io.IOException;
 import java.io.OutputStream;

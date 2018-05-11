@@ -1,12 +1,16 @@
 ---
 declared-services:
-  sample-java-cloudant-cloudantNoSQLDB:
-    label: cloudantNoSQLDB
+  noSqlDb:
+    label: noSqlDb
+    plan: Lite
+  mySql:
+    label: mySql
     plan: Lite
 applications:
-- name: sample-java-cloudant
+- name: mentalrental
   random-route: true
   memory: 512M
-  path: target/JavaCloudantApp.war
+  path: target/mentalrental.war
+  buildpack: liberty-for-java
   services:
-  - sample-java-cloudant-cloudantNoSQLDB
+  - noSqlDb
