@@ -4,3 +4,4 @@ target/*
 .settings/
 .idea/
 .factorypath
+src/main/webapp/tmp/*
