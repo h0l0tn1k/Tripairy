@@ -1,23 +1,159 @@
-/*
-Errno::ENOENT: No such file or directory @ rb_sysopen - s.style.scss
+html {
+  box-sizing: border-box;
+  font-family: 'Ubuntu', Arial, Helvetica, sans-serif;
+  display: block; }
 
-Backtrace:
-/var/lib/gems/2.3.0/gems/sass-3.5.6/lib/sass/plugin/compiler.rb:454:in `read'
-/var/lib/gems/2.3.0/gems/sass-3.5.6/lib/sass/plugin/compiler.rb:454:in `update_stylesheet'
-/var/lib/gems/2.3.0/gems/sass-3.5.6/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
-/var/lib/gems/2.3.0/gems/sass-3.5.6/lib/sass/plugin/compiler.rb:209:in `each'
-/var/lib/gems/2.3.0/gems/sass-3.5.6/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
-/var/lib/gems/2.3.0/gems/sass-3.5.6/lib/sass/plugin/compiler.rb:294:in `watch'
-/var/lib/gems/2.3.0/gems/sass-3.5.6/lib/sass/plugin.rb:109:in `method_missing'
-/var/lib/gems/2.3.0/gems/sass-3.5.6/lib/sass/exec/sass_scss.rb:360:in `watch_or_update'
-/var/lib/gems/2.3.0/gems/sass-3.5.6/lib/sass/exec/sass_scss.rb:51:in `process_result'
-/var/lib/gems/2.3.0/gems/sass-3.5.6/lib/sass/exec/base.rb:52:in `parse'
-/var/lib/gems/2.3.0/gems/sass-3.5.6/lib/sass/exec/base.rb:19:in `parse!'
-/var/lib/gems/2.3.0/gems/sass-3.5.6/bin/sass:13:in `<top (required)>'
-/usr/local/bin/sass:23:in `load'
-/usr/local/bin/sass:23:in `<main>'
-*/
-body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Errno::ENOENT: No such file or directory @ rb_sysopen - s.style.scss"; }
+*, *:before, *:after {
+  box-sizing: inherit; }
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle; }
+
+header {
+  max-width: 1200px;
+  margin: 0 auto;
+  color: #777;
+  font-size: 1.5em; }
+
+header .header-content {
+  width: 100%;
+  margin: 12px auto; }
+  header .header-content .headline {
+    margin-left: 1.5em;
+    float: left; }
+  header .header-content .navigation {
+    margin-left: 2em;
+    float: right;
+    height: 20px;
+    display: table;
+    width: 70%;
+    margin-top: 3em; }
+    header .header-content .navigation ul {
+      float: right;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: table-cell;
+      vertical-align: middle; }
+      header .header-content .navigation ul li {
+        display: table;
+        float: left;
+        text-align: center;
+        margin-left: 1px; }
+        header .header-content .navigation ul li a {
+          padding: 0.4em 0.9em;
+          display: table-cell;
+          vertical-align: middle;
+          text-decoration: none;
+          font-size: 1em;
+          color: #777; }
+      header .header-content .navigation ul li:last-child {
+        margin-right: 3em; }
+      header .header-content .navigation ul li:first-child, header .header-content .navigation ul li:hover {
+        background: #777; }
+        header .header-content .navigation ul li:first-child a, header .header-content .navigation ul li:hover a {
+          color: #fff; }
+
+section {
+  width: 100%;
+  background: #f3f3f3;
+  color: #666;
+  border-top: 1px solid #e2e2e2;
+  border-bottom: 1px solid #e2e2e2;
+  height: 100%; }
+
+section .main-content {
+  max-width: 1200px;
+  margin: 3em auto 1em;
+  height: 100%; }
+  section .main-content div {
+    background: #fff;
+    border: 1px solid #e2e2e2;
+    border-radius: 5px;
+    width: 30%;
+    float: left;
+    padding: 1em 1em 1.5em 1em;
+    margin-left: 2em;
+    margin-bottom: 1em; }
+    section .main-content div h3 {
+      margin: 0 0 .5em 0;
+      font-weight: lighter;
+      font-size: 2.5em; }
+      section .main-content div h3 a {
+        text-decoration: none;
+        color: #777; }
+      section .main-content div h3 a:hover {
+        font-size: 1.025em;
+        font-weight: italic;
+        border-bottom: 2px solid #777; }
+    section .main-content div p {
+      margin: 1em 0 0 0;
+      color: #666;
+      line-height: 1.4em;
+      font-weight: normal; }
+
+footer {
+  background: #333;
+  padding-bottom: 2em; }
+  footer .footer-content {
+    max-width: 1200px;
+    margin-left: 6.25%; }
+    footer .footer-content h4, footer .footer-content h5 {
+      font-weight: lighter;
+      margin: 0; }
+    footer .footer-content h4 {
+      color: #ccc;
+      padding-top: 2em; }
+    footer .footer-content h5 {
+      font-size: 0.8em;
+      padding-top: 1em;
+      color: #777; }
+      footer .footer-content h5 a {
+        color: #777; }
+      footer .footer-content h5 a:hover {
+        text-decoration: none; }
+
+/*CLEARFIX*/
+.group:before,
+.group:after {
+  content: " ";
+  display: table; }
+
+.group:after {
+  clear: both; }
+
+/*CLEARFIX*/
+@media screen and (max-width: 1000px) {
+  header .header-content .navigation {
+    width: 60%; }
+
+  section .main-content div {
+    float: none;
+    display: block;
+    width: 90%;
+    margin: 0 auto 2.5em; } }
+@media screen and (max-width: 920px) {
+  section .main-content div {
+    float: none;
+    display: block;
+    width: 90%;
+    margin: 0 auto 2.5em; }
+  section .main-content .section-pic {
+    display: none; } }
+@media screen and (max-width: 640px) {
+  header .header-content .navigation {
+    width: 300%; } }
+@media screen and (max-width: 480px) {
+  header .header-content {
+    display: block;
+    width: 100%;
+    margin: inherit auto; }
+    header .header-content .logo {
+      text-align: center;
+      width: 50%;
+      margin: 0 auto;
+      float: none; } }
+
+/*# sourceMappingURL=style.css.map */

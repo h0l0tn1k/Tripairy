@@ -1,5 +1,5 @@
-$button-colour: #0099ff;
 $section-border-colour: #e2e2e2;
+$headline-colour: #777;
 
 html { box-sizing: border-box;
     font-family: 'Ubuntu', Arial, Helvetica, sans-serif; display: block;}
@@ -14,24 +14,28 @@ img {
 header {
 	max-width: 1200px;
 	margin: 0 auto;
+	color: $headline-colour;
+	font-size: 1.5em;
 }
 
 header .header-content {
 	width: 100%;
-	margin: 12px 0;
+	margin: 12px auto;
 
-	& .logo {
-		margin-left: 2em;
+	& .headline {
+		margin-left: 1.5em;
 		float: left;
 	}
 
 	& .navigation {
 		margin-left: 2em;
 		float: right;
-		height: 62px;
+		height: 20px;
 		display: table;
-
+		width: 70%;
+		margin-top: 3em;
 		& ul {
+			float: right;
 			margin: 0;
 			padding: 0;
 			list-style: none;
@@ -46,18 +50,22 @@ header .header-content {
 				margin-left: 1px;
 
 				& a {
-					padding: 0.5em 1.3em;
+					padding: 0.4em 0.9em;
 					display: table-cell;
 					vertical-align: middle;
 					text-decoration: none;
-					font-size: 1.2em;
-					color: $button-colour;
+					font-size: 1em;
+					color: $headline-colour;
 				}
+			}
+
+			& li:last-child {
+				margin-right: 3em;
 			}
 
 			& li:first-child,
 			& li:hover {
-				background: $button-colour;
+				background: $headline-colour;
 				& a {
 					color: #fff;
 				}
@@ -72,95 +80,43 @@ section {
 	color: #666;
 	border-top: 1px solid $section-border-colour;
 	border-bottom: 1px solid $section-border-colour;
+	height: 100%;
 }
 
-section .section-content {
-	margin: 0 auto;
-	width: 90%;
-	padding: 20px 0;
-
-	& .section-text {
-		width: 40%;
-		float: left;
-
-		& h2 {
-			margin-top: 0;
-			color: #333;
-			font-family: 'Ubuntu', Arial, Helvetica, sans-serif;
-			font-weight: normal;
-			font-size: 2em;
-		}
-
-		& p {
-			padding-right: 1.5em;
-			font-size: 1em;
-			line-height: 1.5em;
-			font-weight: normal;
-			margin: 0 0 3em 0;
-		}
-
-		& a {
-			text-transform: uppercase;
-			text-decoration: none;
-			color: #fff;
-			background: $button-colour;
-			border-radius: 7px;
-			padding: 10px;
-			margin-right: 10px;
-		}
-
-		& a:hover {
-			background: #8dbc01;
-		}
-	}
-
-	& .section-pic {
-		width: 60%;
-		float: right;
-
-		& .section-pic-content {
-
-			background: #fff;
-			border-radius: 3px;
-			-webkit-box-shadow: 0 1px 4px rgba(0,0,0,.2);
-    		-moz-box-shadow: 0 1px 4px rgba(0,0,0,.2);
-    		-o-box-shadow: 0 1px 4px rgba(0,0,0,.2);
-			text-align: center;
-			& a {
-
-				& img {
-					margin-top: 3px;
-					width: 99%;
-				}
-			}
-
-			& p {
-				text-align: left;
-				margin: 10px 7px;
-				padding-bottom: 15px;
-			}
-		}
-	}
-}
-
-.main .main-content {
+section .main-content {
 	max-width: 1200px;
-	height: 35em;
-	margin: 4em auto 0;
+	margin: 3em auto 1em;
+	height: 100%;
 
 	& div {
-		width: 33.3333333%;
-		float: left;
-		padding: 0 1em;
+		background: #fff;
+		border: 1px solid $section-border-colour;
+    	border-radius: 5px;
 
+		width: 30%;
+		float: left;
+		padding: 1em 1em 1.5em 1em;
+		margin-left: 2em;
+		margin-bottom: 1em;
 		& h3 {
 			margin: 0 0 .5em 0;
 			font-weight: lighter;
 			font-size: 2.5em;
+
+			& a {
+				text-decoration: none;
+				color: $headline-colour;
+			}
+
+			& a:hover {
+				font-size: 1.025em;
+				font-weight: italic;
+				border-bottom: 2px solid $headline-colour;
+			}
 		}
 
 		& p {
-			margin: .5em 0 0 0;
+			margin: 1em 0 0 0;
 			color: #666;
 			line-height: 1.4em;
 			font-weight: normal;
@@ -214,28 +170,12 @@ footer {
 
 //MediaQueries
 @media screen and ( max-width: 1000px ) {
-	header .header-content .navigation ul {
 
-		& li {
-			float: none;
-			margin-right: 2em;
-			& a:first-child {
-				background: #fff;
-				color: $button-colour;
-			}
-
-			& a:hover {
-				background: $button-colour;
-				color: #fff;
-			}
-		}
+	header .header-content .navigation {
+		width: 60%;
 	}
-}
 
-@media screen and ( max-width: 920px ) {
-	.main .main-content {
-		height: 300%;
-
+	section .main-content {
 		& div {
 			float: none;
 			display: block;
@@ -243,20 +183,28 @@ footer {
 			margin: 0 auto 2.5em;
 		}
 	}
+}
 
-	section .section-content {
-		& .section-text {
-			width: 95%;
+@media screen and ( max-width: 920px ) {
+	section .main-content {
+
+		& div {
 			float: none;
-			margin: 0 auto;
-			padding: 30px 0;
+			display: block;
+			width: 90%;
+			margin: 0 auto 2.5em;
 		}
 
 		& .section-pic {
 			display: none;
 		}
 	}
+}
 
+@media screen and ( max-width: 640px ) {
+	header .header-content .navigation {
+		width: 300%;
+	}
 }
 
 @media screen and ( max-width: 480px ) {
@@ -269,35 +217,6 @@ footer {
 			width: 50%;
 			margin: 0 auto;
 			float: none;
-		}
-
-		& .navigation {
-			float: none;
-			width: 90%;
-			margin: 2em auto 0em;
-			background: #dadada;
-
-			& ul li {
-				margin: 0 auto;
-				padding: 0;
-				width: 100%;
-				border-bottom: 1px solid #fff;
-
-				& a:first-child {
-					color: $button-colour;
-					background: #dadada;
-				}
-
-				& a {
-					background: #dadada;
-					color: $button-colour;
-				}
-
-				& a:hover {
-					background: $button-colour;
-					color: #fff;
-				}
-			}
 		}
 	}
 }
