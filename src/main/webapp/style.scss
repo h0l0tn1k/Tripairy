@@ -1,5 +1,6 @@
 $section-border-colour: #e2e2e2;
 $headline-colour: #777;
+$main-headline-colour: #545252;
 
 html { box-sizing: border-box;
     font-family: 'Ubuntu', Arial, Helvetica, sans-serif; display: block;}
@@ -25,6 +26,7 @@ header .header-content {
 	& .headline {
 		margin-left: 1.5em;
 		float: left;
+		color: $main-headline-colour;
 	}
 
 	& .navigation {
@@ -88,16 +90,26 @@ section .main-content {
 	margin: 3em auto 1em;
 	height: 100%;
 
+	display: -webkit-box;
+    display: -moz-box;
+    display: -webkit-flexbox;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+	flex-wrap: wrap;
+
 	& div {
+		max-width: (400 - 16/*em for margin left*/) / 1200 * 100%;
+		flex: 1 0 33%;
+
 		background: #fff;
 		border: 1px solid $section-border-colour;
     	border-radius: 5px;
 
-		width: 30%;
-		float: left;
 		padding: 1em 1em 1.5em 1em;
-		margin-left: 2em;
+		margin-left: 1em;
 		margin-bottom: 1em;
+
 		& h3 {
 			margin: 0 0 .5em 0;
 			font-weight: lighter;
@@ -122,9 +134,12 @@ section .main-content {
 			font-weight: normal;
 		}
 	}
+
+	& div:nth-child(4n), div:first-child {
+		max-width: 400 / 1200 * 100%;
+		margin-left: 0em;
+	}
 }
-
-
 
 footer {
 	background: #333;
@@ -169,34 +184,49 @@ footer {
 /*CLEARFIX*/
 
 //MediaQueries
-@media screen and ( max-width: 1000px ) {
+@media screen and ( max-width: 1250px ) {
+	section .main-content {
+		& div {
+		}
+
+		& div:nth-child(4n), div:first-child {
+			max-width: (400 - 16) / 1200 * 100%;
+			margin-left: 1em;
+		}
+	}
+}
+
+@media screen and ( max-width: 1215px ) {
 
 	header .header-content .navigation {
 		width: 60%;
 	}
 
 	section .main-content {
-		& div {
-			float: none;
-			display: block;
-			width: 90%;
-			margin: 0 auto 2.5em;
+
+		max-width: 1000px;
+		flex-direction: row;
+		width: 100%;
+		margin: 3em auto 1em;
+
+		& div, div:nth-child(3n), div:first-child, div:last-child {
+			margin-left: 2em;
+			flex: 1 0 50%;
+			max-width: (450 - 4 * 16) / 900 * 100%;
 		}
+
+
 	}
 }
 
-@media screen and ( max-width: 920px ) {
+@media screen and ( max-width: 850px ) {
 	section .main-content {
+		flex-direction: column;
 
-		& div {
-			float: none;
-			display: block;
+		& div, div:nth-child(3n), div:first-child, div:last-child {
+			max-width: 80%;
+			margin: 0 auto 2em;
 			width: 90%;
-			margin: 0 auto 2.5em;
-		}
-
-		& .section-pic {
-			display: none;
 		}
 	}
 }
@@ -212,6 +242,7 @@ footer {
 		display: block;
 		width: 100%;
 		margin: inherit auto;
+
 		& .logo {
 			text-align: center;
 			width: 50%;
