@@ -1,4 +1,4 @@
-package com.mentalrental;
+package mentalrental;
 
 import com.cloudant.client.api.Database;
 import com.google.gson.JsonArray;
@@ -16,17 +16,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Path("/trips")
+@Path("/favorites")
 /**
  * CRUD service of todo list table. It uses REST style.
  */
-public class TripsServlet {
+public class ResourceServlet {
 
-	public TripsServlet() {
+	public ResourceServlet() {
 	}
 
 	@POST
-	public Response create(@FormParam("title") String title, @FormParam("description") String description)
+	public Response create(@QueryParam("id") Long id, @FormParam("name") String name, @FormParam("value") String value)
 			throws Exception {
 
 		Database db = null;
@@ -37,26 +37,51 @@ public class TripsServlet {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 
-		JsonObject resultObject = create(db, title, description);
+		String idString = id == null ? null : id.toString();
+		JsonObject resultObject = create(db, idString, name, value, null, null);
+
 		System.out.println("Create Successful.");
+
 		return Response.ok(resultObject.toString()).build();
 	}
 
-	protected JsonObject create(Database db, String title, String description)
+	protected JsonObject create(Database db, String id, String name, String value, Part part, String fileName)
 			throws IOException {
 
-		String id = String.valueOf(System.currentTimeMillis());
+		// check if document exist
+		HashMap<String, Object> obj = (id == null) ? null : db.find(HashMap.class, id);
 
-		// create a new document
-		System.out.println("Creating new document with id : " + id);
-		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("title", title);
-		data.put("_id", id);
-		data.put("description", description);
-		data.put("creation_date", new Date().toString());
-		db.save(data);
+		if (obj == null) {
+			// if new document
 
-		HashMap<String, Object> obj = db.find(HashMap.class, id);
+			id = String.valueOf(System.currentTimeMillis());
+
+			// create a new document
+			System.out.println("Creating new document with id : " + id);
+			Map<String, Object> data = new HashMap<String, Object>();
+			data.put("name", name);
+			data.put("_id", id);
+			data.put("value", value);
+			data.put("creation_date", new Date().toString());
+			db.save(data);
+
+			// attach the attachment object
+			obj = db.find(HashMap.class, id);
+			saveAttachment(db, id, part, fileName, obj);
+		} else {
+			// if existing document
+			// attach the attachment object
+			saveAttachment(db, id, part, fileName, obj);
+
+			// update other fields in the document
+			obj = db.find(HashMap.class, id);
+			obj.put("name", name);
+			obj.put("value", value);
+			db.update(obj);
+		}
+
+		obj = db.find(HashMap.class, id);
+
 		JsonObject resultObject = toJsonObject(obj);
 
 		return resultObject;
@@ -90,10 +115,20 @@ public class TripsServlet {
 				for (HashMap doc : allDocs) {
 					HashMap<String, Object> obj = db.find(HashMap.class, doc.get("_id") + "");
 					JsonObject jsonObject = new JsonObject();
+					LinkedTreeMap<String, Object> attachments = (LinkedTreeMap<String, Object>) obj.get("_attachments");
 
-					jsonObject.addProperty("id", obj.get("_id") + "");
-					jsonObject.addProperty("title", obj.get("title") + "");
-					jsonObject.addProperty("description", obj.get("description") + "");
+					if (attachments != null && attachments.size() > 0) {
+						JsonArray attachmentList = getAttachmentList(attachments, obj.get("_id") + "");
+						jsonObject.addProperty("id", obj.get("_id") + "");
+						jsonObject.addProperty("name", obj.get("name") + "");
+						jsonObject.addProperty("value", obj.get("value") + "");
+						jsonObject.add("attachements", attachmentList);
+
+					} else {
+						jsonObject.addProperty("id", obj.get("_id") + "");
+						jsonObject.addProperty("name", obj.get("name") + "");
+						jsonObject.addProperty("value", obj.get("value") + "");
+					}
 
 					jsonArray.add(jsonObject);
 				}
@@ -200,8 +235,8 @@ public class TripsServlet {
 			jsonObject.add("attachements", attachmentList);
 		}
 		jsonObject.addProperty("id", obj.get("_id") + "");
-		jsonObject.addProperty("description", obj.get("description") + "");
-		jsonObject.addProperty("title", obj.get("title") + "");
+		jsonObject.addProperty("name", obj.get("name") + "");
+		jsonObject.addProperty("value", obj.get("value") + "");
 		return jsonObject;
 	}
 
@@ -217,21 +252,40 @@ public class TripsServlet {
 		}
 	}
 
+	/*
+	 * Create a document and Initialize with sample data/attachments
+	 */
 	private List<HashMap> initializeSampleData(Database db) throws Exception {
 
 		long id = System.currentTimeMillis();
-		String name = "Sample title 1";
-		String value = "Sample description 2";
+		String name = "Sample category";
+		String value = "List of sample files";
 
 		// create a new document
 		System.out.println("Creating new document with id : " + id);
 		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("title", name);
+		data.put("name", name);
 		data.put("_id", id + "");
-		data.put("description", value);
+		data.put("value", value);
+		data.put("creation_date", new Date().toString());
 		db.save(data);
 
+		// attach the object
+		HashMap<String, Object> obj = db.find(HashMap.class, id + "");
+
+		// attachment#1
+		File file = new File("Sample.txt");
+		file.createNewFile();
+		PrintWriter writer = new PrintWriter(file);
+		writer.write("This is a sample file...");
+		writer.flush();
+		writer.close();
+		FileInputStream fileInputStream = new FileInputStream(file);
+		db.saveAttachment(fileInputStream, file.getName(), "text/plain", id + "", (String) obj.get("_rev"));
+		fileInputStream.close();
+
 		return db.getAllDocsRequestBuilder().includeDocs(true).build().getResponse().getDocsAs(HashMap.class);
+
 	}
 
 	private Database getDB() {

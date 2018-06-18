@@ -1,4 +1,4 @@
-package com.mentalrental;
+package mentalrental;
 
 import com.cloudant.client.api.ClientBuilder;
 import com.cloudant.client.api.CloudantClient;
