@@ -4,3 +4,8 @@ target/*
 .settings/
 .idea/
 .factorypath
+src/main/webapp/tmp/*
+src/main/webapp/.css
+src/main/webapp/.sass-cache/
+src/main/webapp/style.css.map
+

@@ -1,0 +1,253 @@
+$section-border-colour: #e2e2e2;
+$headline-colour: #777;
+$main-headline-colour: #545252;
+
+html { box-sizing: border-box;
+    font-family: 'Ubuntu', Arial, Helvetica, sans-serif; display: block;}
+
+*, *:before, *:after { box-sizing: inherit; }
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle; }
+
+header {
+	max-width: 1200px;
+	margin: 0 auto;
+	color: $headline-colour;
+	font-size: 1.5em;
+}
+
+header .header-content {
+	width: 100%;
+	margin: 12px auto;
+
+	& .headline {
+		margin-left: 1.5em;
+		float: left;
+		color: $main-headline-colour;
+	}
+
+	& .navigation {
+		margin-left: 2em;
+		float: right;
+		height: 20px;
+		display: table;
+		width: 70%;
+		margin-top: 3em;
+		& ul {
+			float: right;
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			display: table-cell;
+			vertical-align: middle;
+
+			& li {
+				display: table;
+				float: left;
+				text-align: center;
+
+				margin-left: 1px;
+
+				& a {
+					padding: 0.4em 0.9em;
+					display: table-cell;
+					vertical-align: middle;
+					text-decoration: none;
+					font-size: 1em;
+					color: $headline-colour;
+				}
+			}
+
+			& li:last-child {
+				margin-right: 3em;
+			}
+
+			& li:first-child,
+			& li:hover {
+				background: $headline-colour;
+				& a {
+					color: #fff;
+				}
+			}
+		}
+	}
+}
+
+section {
+	width: 100%;
+	background: #f3f3f3;
+	color: #666;
+	border-top: 1px solid $section-border-colour;
+	border-bottom: 1px solid $section-border-colour;
+	height: 100%;
+}
+
+section .main-content {
+	max-width: 1200px;
+	margin: 3em auto 1em;
+	height: 100%;
+
+	display: -webkit-box;
+    display: -moz-box;
+    display: -webkit-flexbox;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+	flex-wrap: wrap;
+
+	& div {
+		max-width: (400 - 16/*em for margin left*/) / 1200 * 100%;
+		flex: 1 0 33%;
+
+		background: #fff;
+		border: 1px solid $section-border-colour;
+    	border-radius: 5px;
+
+		padding: 1em 1em 1.5em 1em;
+		margin-left: 1em;
+		margin-bottom: 1em;
+
+		& h3 {
+			margin: 0 0 .5em 0;
+			font-weight: lighter;
+			font-size: 2.5em;
+
+			& a {
+				text-decoration: none;
+				color: $headline-colour;
+			}
+
+			& a:hover {
+				font-size: 1.025em;
+				font-weight: italic;
+				border-bottom: 2px solid $headline-colour;
+			}
+		}
+
+		& p {
+			margin: 1em 0 0 0;
+			color: #666;
+			line-height: 1.4em;
+			font-weight: normal;
+		}
+	}
+
+	& div:nth-child(4n), div:first-child {
+		max-width: 400 / 1200 * 100%;
+		margin-left: 0em;
+	}
+}
+
+footer {
+	background: #333;
+	padding-bottom: 2em;
+
+	& .footer-content {
+		max-width: 1200px;
+		margin-left: 75 / 1200 * 100%;
+		& h4, h5 {
+			font-weight: lighter;
+			margin: 0;
+		}
+
+		& h4 {
+			color: #ccc;
+			padding-top: 2em;
+		}
+
+		& h5 {
+			font-size: 0.8em;
+			padding-top: 1em;
+			color: #777;
+			& a {
+				color: #777;
+			}
+
+			& a:hover {
+				text-decoration: none;
+			}
+		}
+	}
+}
+
+/*CLEARFIX*/
+.group:before,
+.group:after {
+	content: " ";
+	display: table;
+}
+
+.group:after { clear: both; }
+/*CLEARFIX*/
+
+//MediaQueries
+@media screen and ( max-width: 1250px ) {
+	section .main-content {
+		& div {
+		}
+
+		& div:nth-child(4n), div:first-child {
+			max-width: (400 - 16) / 1200 * 100%;
+			margin-left: 1em;
+		}
+	}
+}
+
+@media screen and ( max-width: 1215px ) {
+
+	header .header-content .navigation {
+		width: 60%;
+	}
+
+	section .main-content {
+
+		max-width: 1000px;
+		flex-direction: row;
+		width: 100%;
+		margin: 3em auto 1em;
+
+		& div, div:nth-child(3n), div:first-child, div:last-child {
+			margin-left: 2em;
+			flex: 1 0 50%;
+			max-width: (450 - 4 * 16) / 900 * 100%;
+		}
+
+
+	}
+}
+
+@media screen and ( max-width: 850px ) {
+	section .main-content {
+		flex-direction: column;
+
+		& div, div:nth-child(3n), div:first-child, div:last-child {
+			max-width: 80%;
+			margin: 0 auto 2em;
+			width: 90%;
+		}
+	}
+}
+
+@media screen and ( max-width: 640px ) {
+	header .header-content .navigation {
+		width: 300%;
+	}
+}
+
+@media screen and ( max-width: 480px ) {
+	header .header-content {
+		display: block;
+		width: 100%;
+		margin: inherit auto;
+
+		& .logo {
+			text-align: center;
+			width: 50%;
+			margin: 0 auto;
+			float: none;
+		}
+	}
+}
