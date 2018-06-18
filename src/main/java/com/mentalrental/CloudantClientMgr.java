@@ -1,8 +1,5 @@
 package com.mentalrental;
 
-import java.util.Map.Entry;
-import java.util.Set;
-
 import com.cloudant.client.api.ClientBuilder;
 import com.cloudant.client.api.CloudantClient;
 import com.cloudant.client.api.Database;
@@ -12,6 +9,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.util.Map.Entry;
+import java.util.Set;
+
 public class CloudantClientMgr {
 
 	private static CloudantClient cloudant = null;
@@ -19,8 +19,8 @@ public class CloudantClientMgr {
 
 	private static String databaseName = "mentalrental_db";
 
-	private static String user = "REPLACE_WITH_CLOUDANT_USERNAME";
-	private static String password = "REPLACE_WITH_CLOUDANT_PASSWORD";
+	private static String user = "ea0914e9-882e-469d-976f-0cf89517502a-bluemix";
+	private static String password = "04f4565bfe1a5fdd67fe8d251de57cb29a58169df7f24dde61a6526b08d54e80";
 
 	private static void initClient() {
 		if (cloudant == null) {
