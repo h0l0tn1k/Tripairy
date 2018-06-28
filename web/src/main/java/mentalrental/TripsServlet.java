@@ -1,219 +1,100 @@
 package mentalrental;
 
-import com.cloudant.client.api.Database;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.google.gson.Gson;
+import mentalrental.dao.TripDao;
+import mentalrental.dao.TripDaoImpl;
+import mentalrental.entity.Trip;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.Currency;
 
 @Path("/trips")
 public class TripsServlet {
+
+    private final Gson gson = new Gson();
+    private final TripDao tripDao = new TripDaoImpl();
 
     public TripsServlet() {
     }
 
     @POST
     public Response create(@FormParam("title") String title,
-                           @FormParam("description") String description)
-            throws Exception {
+                           @FormParam("description") String description,
+                           @FormParam("imageUrl") String imageUrl,
+                           @FormParam("price") BigDecimal price,
+                           @FormParam("currency") String currency,
+                           @FormParam("rating") Integer rating) {
+        //todo
+        Trip trip = new Trip();
+        trip.setTitle(title);
+        trip.setDescription(description);
+        trip.setImageUrl(imageUrl);
+        trip.setCurrency(Currency.getInstance(currency.toUpperCase()));
+        trip.setPrice(price);
+        trip.setRating(rating);
+        tripDao.create(trip);
 
-        Database db = null;
-        try {
-            db = getDB();
-        } catch (Exception re) {
-            re.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
-
-        JsonObject resultObject = create(db, title, description);
-        System.out.println("Create Successful.");
-        return Response.ok(resultObject.toString()).build();
-    }
-
-    protected JsonObject create(Database db, String title, String description)
-            throws IOException {
-
-        String id = String.valueOf(System.currentTimeMillis());
-
-        // create a new document
-        System.out.println("Creating new document with id : " + id);
-        Map<String, Object> data = new HashMap<String, Object>();
-        data.put("title", title);
-        data.put("_id", id);
-        data.put("description", description);
-        data.put("creation_date", new Date().toString());
-        db.save(data);
-
-        HashMap<String, Object> obj = db.find(HashMap.class, id);
-        JsonObject resultObject = toJsonObject(obj);
-
-        return resultObject;
+        return Response.ok(gson.toJson(tripDao.findById(trip.getId()))).build();
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response get(@QueryParam("id") Long id, @QueryParam("cmd") String cmd) throws Exception {
-
-        Database db = null;
-        try {
-            db = getDB();
-        } catch (Exception re) {
-            re.printStackTrace();
-            throw re;
-        }
-
-        JsonObject resultObject = new JsonObject();
-        JsonArray jsonArray = new JsonArray();
-
-        if (id == null) {
-            try {
-                // get all the document present in database
-                List<HashMap> allDocs = db.getAllDocsRequestBuilder().includeDocs(true).build().getResponse()
-                        .getDocsAs(HashMap.class);
-
-                if (allDocs.size() == 0) {
-                    allDocs = initializeSampleData(db);
-                }
-
-                for (HashMap doc : allDocs) {
-                    HashMap<String, Object> obj = db.find(HashMap.class, doc.get("_id") + "");
-                    JsonObject jsonObject = new JsonObject();
-
-                    jsonObject.addProperty("id", obj.get("_id") + "");
-                    jsonObject.addProperty("title", obj.get("title") + "");
-                    jsonObject.addProperty("description", obj.get("description") + "");
-
-                    jsonArray.add(jsonObject);
-                }
-            } catch (Exception dnfe) {
-                System.out.println("Exception thrown : " + dnfe.getMessage());
-            }
-
-            resultObject.addProperty("id", "all");
-            resultObject.add("body", jsonArray);
-
-            return Response.ok(resultObject.toString()).build();
-        }
-
-        // check if document exists
-        HashMap<String, Object> obj = db.find(HashMap.class, id + "");
-        if (obj != null) {
-            JsonObject jsonObject = toJsonObject(obj);
-            return Response.ok(jsonObject.toString()).build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
+    public Response get() {
+        return Response.ok(gson.toJson(tripDao.findAll())).build();
     }
 
-
+    @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response get(@PathParam("id") Long id) throws Exception {
+    public Response get(@PathParam("id") String id) {
 
-        Database db = null;
-        try {
-            db = getDB();
-        } catch (Exception re) {
-            re.printStackTrace();
-            throw re;
+        Trip trip = tripDao.findById(id);
+        if (trip != null) {
+            return Response.ok(gson.toJson(trip)).build();
         }
 
-        HashMap<String, Object> obj = db.find(HashMap.class, id.toString());
-        if (obj == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        } else {
-            return Response.ok(obj.get(id.toString())).build();
-        }
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     @DELETE
-    public Response delete(@QueryParam("id") long id) {
-
-        Database db = null;
-        try {
-            db = getDB();
-        } catch (Exception re) {
-            re.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
-
-        // check if document exist
-        HashMap<String, Object> obj = db.find(HashMap.class, id + "");
-
-        if (obj == null) {
+    @Path("{id}")
+    public Response delete(@PathParam("id") String id) {
+        Trip trip = tripDao.findById(id);
+        if (trip == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
-        } else {
-            db.remove(obj);
-
-            System.out.println("Delete Successful.");
-
-            return Response.ok("OK").build();
         }
+
+        tripDao.delete(trip);
+        return Response.ok("OK").build();
     }
 
     @PUT
-    public Response update(@QueryParam("id") long id, @QueryParam("name") String name,
-                           @QueryParam("value") String value) {
+    @Path("{id}")
+    public Response update(@PathParam("id") String id,
+                           @FormParam("title") String title,
+                           @FormParam("description") String description,
+                           @FormParam("imageUrl") String imageUrl,
+                           @FormParam("price") BigDecimal price,
+                           @FormParam("currency") String currency,
+                           @FormParam("rating") Integer rating) {
 
-        Database db = null;
-        try {
-            db = getDB();
-        } catch (Exception re) {
-            re.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
-
-        // check if document exist
-        HashMap<String, Object> obj = db.find(HashMap.class, id + "");
-
-        if (obj == null) {
+        //todo
+        Trip trip = tripDao.findById(id);
+        if (trip == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
-        } else {
-            obj.put("name", name);
-            obj.put("value", value);
-
-            db.update(obj);
-
-            System.out.println("Update Successful.");
-
-            return Response.ok("OK").build();
         }
+
+        trip.setTitle(title);
+        trip.setDescription(description);
+        trip.setImageUrl(imageUrl);
+        trip.setCurrency(Currency.getInstance(currency.toUpperCase()));
+        trip.setPrice(price);
+        trip.setRating(rating);
+
+        tripDao.update(trip);
+        return Response.ok(gson.toJson(tripDao.findById(trip.getId()))).build();
     }
-
-      private JsonObject toJsonObject(HashMap<String, Object> obj) {
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("id", obj.get("_id") + "");
-        jsonObject.addProperty("description", obj.get("description") + "");
-        jsonObject.addProperty("title", obj.get("title") + "");
-        return jsonObject;
-    }
-
-    private List<HashMap> initializeSampleData(Database db) throws Exception {
-
-        long id = System.currentTimeMillis();
-        String name = "Sample title 1";
-        String value = "Sample description 2";
-
-        // create a new document
-        System.out.println("Creating new document with id : " + id);
-        Map<String, Object> data = new HashMap<String, Object>();
-        data.put("title", name);
-        data.put("_id", id + "");
-        data.put("description", value);
-        db.save(data);
-
-        return db.getAllDocsRequestBuilder().includeDocs(true).build().getResponse().getDocsAs(HashMap.class);
-    }
-
-    private Database getDB() {
-        return CloudantClientMgr.getDB();
-    }
-
 }

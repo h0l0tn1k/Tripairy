@@ -4,10 +4,10 @@ declared-services:
     label: noSqlDb
     plan: Lite
 applications:
-- name: mentalrental
+- name: tripairy
   #random-route: true
   memory: 512M
-  path: target/mentalrental.war
+  path: web/target/tripairy.war
   buildpack: liberty-for-java
   services:
   - noSqlDb

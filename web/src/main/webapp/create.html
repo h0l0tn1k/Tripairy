@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tripairy</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Droid+Serif|Ubuntu" type="text/css">
+    <link rel="stylesheet" href="styles/normalize.css">
+    <link rel="stylesheet" href="styles/style.css" />
+</head>
+<body>
+<header>
+    <div class="header-content group">
+        <div class="headline">
+            <h1 id="page-title">Create</h1>
+        </div>
+        <nav class="navigation">
+            <ul>
+                <li>
+                    <a href="index.html">Home</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<section>
+    <div class="main-content group">
+        <div class="trip-create">
+            <h3><a href="#" id="preview-title">Enter title</a></h3>
+            <img id="preview-image" src="images/no_image.png">
+            <h4>Description</h4>
+            <p id="preview-content">
+                Enter description
+            </p>
+            <h4>Price</h4>
+            <p id="preview-price">0</p>
+            <h4>Currency</h4>
+            <p id="preview-currency">EUR</p>
+            <h4>Rating</h4>
+            <p id="preview-rating">0/10</p>
+        </div>
+        <div class="form-create">
+            <Form onsubmit="return false;">
+                <input id="title" type="text" name="title" placeholder="Enter title">
+                </br>
+                <input id="description" type="text" name="description" placeholder="Enter description">
+                </br>
+                <input id="imageUrl" type="url" name="imageurl" placeholder="Enter image url">
+                </br>
+                <input id="price" type="number" min="0" name="price" placeholder="Enter price">
+                </br>
+                <select id="currency" name="currency">
+                    <option value="eur">EUR</option>
+                    <option value="czk">CZK</option>
+                    <option value="usd">USD</option>
+                </select>
+                </br>
+                <input id="rating" type="number" name="rating" min="0" max="10" placeholder="Enter rating 0-10">
+                </br>
+                <input id="submitTrip" type="submit">
+            </Form>
+        </div>
+    </div>
+</section>
+<footer>
+    <div class="footer-content">
+        <h4>Created by:</h4>
+        <h5>Peter Vitéz, Štefan Matta, Martin Ševčík</h5>
+    </div>
+</footer>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="util.js"></script>
+<script src="js/create.js"></script>
+</body>
+</html>

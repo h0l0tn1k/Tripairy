@@ -1,0 +1,378 @@
+$section-border-colour: #e2e2e2;
+$headline-colour: #777;
+$main-headline-colour: #545252;
+
+html { box-sizing: border-box;
+    font-family: 'Ubuntu', Arial, Helvetica, sans-serif; display: block;}
+
+*, *:before, *:after { box-sizing: inherit; }
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle; }
+
+header {
+	max-width: 1200px;
+	margin: 0 auto;
+	color: $headline-colour;
+	font-size: 1.5em;
+}
+
+header .header-content {
+	width: 100%;
+	margin: 12px auto;
+
+	& .headline {
+		margin-left: 1.5em;
+		float: left;
+		color: $main-headline-colour;
+        width: 50%;
+	}
+
+	& .navigation {
+		float: right;
+		display: table;
+        width: 50%;
+
+        & ul {
+			float: right;
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			display: table-cell;
+			vertical-align: middle;
+
+			& li {
+				display: table;
+				float: left;
+				text-align: center;
+
+				margin-left: 1px;
+
+				& a {
+					padding: 0.4em 0.9em;
+					display: table-cell;
+					vertical-align: middle;
+					text-decoration: none;
+					font-size: 1em;
+					color: $headline-colour;
+				}
+			}
+
+			& li:last-child {
+				margin-right: 3em;
+			}
+
+			& li:first-child,
+			& li:hover {
+				background: $headline-colour;
+				& a {
+					color: #fff;
+				}
+			}
+		}
+	}
+}
+
+section {
+	width: 100%;
+	background: #f3f3f3;
+	color: #666;
+	border-top: 1px solid $section-border-colour;
+	border-bottom: 1px solid $section-border-colour;
+	height: 100%;
+}
+
+section .main-content {
+	max-width: 1200px;
+	margin: 3em auto 1em;
+	height: 100%;
+
+	display: -webkit-box;
+    display: -moz-box;
+    display: -webkit-flexbox;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+	flex-wrap: wrap;
+
+	& div {
+		background: #fff;
+		border: 1px solid $section-border-colour;
+		border-radius: 5px;
+
+		padding: 1em 1em 1.5em 1em;
+		margin-left: 1em;
+		margin-bottom: 3em;
+	}
+
+	& .trip {
+		max-width: (400 - 16/*em for margin left*/) / 1200 * 100%;
+		flex: 1 0 33%;
+
+		& h3 {
+			margin: 0 0 .5em 0;
+			font-weight: lighter;
+			font-size: 2.5em;
+
+			& a {
+				text-decoration: none;
+				color: $headline-colour;
+			}
+
+			& a:hover {
+				font-size: 1.025em;
+				border-bottom: 2px solid $headline-colour;
+			}
+		}
+
+		& p {
+			margin: 1em 0 0 0;
+			color: #666;
+			line-height: 1.4em;
+			font-weight: normal;
+		}
+	}
+
+	& .trip:nth-child(3n + 1) {
+		max-width: 400 / 1200 * 100%;
+		margin-left: 0em;
+	}
+}
+
+footer {
+	background: #333;
+	padding-bottom: 2em;
+
+	& .footer-content {
+		max-width: 1200px;
+		margin-left: 75 / 1200 * 100%;
+		& h4, h5 {
+			font-weight: lighter;
+			margin: 0;
+		}
+
+		& h4 {
+			color: #ccc;
+			padding-top: 2em;
+		}
+
+		& h5 {
+			font-size: 0.8em;
+			padding-top: 1em;
+			color: #777;
+			& a {
+				color: #777;
+			}
+
+			& a:hover {
+				text-decoration: none;
+			}
+		}
+	}
+}
+
+/*
+FORM-start
+*/
+section .main-content {
+
+
+    & .trip-create {
+        float: left;
+        width: 30%;
+
+        & h3 a {
+            text-decoration: none;
+            color: $headline-colour;
+            font-size: 1.5em;
+        }
+
+        & h3 a:hover {
+          font-size: 1.525em;
+          border-bottom: 2px solid $headline-colour;
+        }
+    }
+
+	& .form-create {
+
+
+        float: right;
+		margin: 0em auto 3em;
+		text-align: center;
+		max-width: 80%;
+		width: 60%;
+
+		& form {
+			width: 100%;
+
+			& input {
+				margin: 0.5em auto;
+				letter-spacing: 0.1em;
+			}
+
+			& input:not(:last-child) {
+				border-radius: 2px;
+				color: $headline-colour;
+				width: 70%;
+			}
+
+			& input:last-child {
+				margin: 1em auto 0.5em;
+				background: $headline-colour;
+				color: #fff;
+				padding: 0.4em 0.9em;
+				display: table-cell;
+				vertical-align: middle;
+				font-size: 1.25em;
+				border: 1px solid $headline-colour;
+				border-radius: 2px;
+			}
+
+			& input:last-child:hover {
+				font-weight: bold;
+			}
+		}
+	}
+
+	& .form-display {
+		margin: 0em auto 3em;
+		text-align: center;
+		max-width: 100%;
+		width: 100%;
+		letter-spacing: 1px;
+		margin-left: 1em;
+		margin-right: 1em;
+
+		& p {
+			margin-top: 2em;
+			margin-bottom: 3em;
+			text-align: justify;
+		}
+
+		& h4 {
+			font-weight: normal;
+
+			& span {
+				font-weight: bold;
+			}
+		}
+	}
+}
+/*
+FORM-end
+*/
+
+/*CLEARFIX*/
+.group:before,
+.group:after {
+	content: " ";
+	display: table;
+}
+
+.group:after { clear: both; }
+/*CLEARFIX*/
+
+//MediaQueries
+@media screen and ( max-width: 1250px ) {
+	section .main-content {
+		& .trip {
+			max-width: (400 - 16) / 1200 * 100%;
+			margin-left: 2em;
+		}
+	}
+}
+
+@media screen and ( max-width: 1215px ) {
+
+	header .header-content .navigation {
+		width: 60%;
+	}
+
+	section .main-content {
+
+		max-width: 1000px;
+
+		width: 100%;
+		margin: 3em auto 1em;
+
+		& .trip, .trip:nth-child(n) {
+			margin-left: 2em;
+			flex: 1 0 50%;
+			max-width: (450 - 4 * 16) / 900 * 100%;
+		}
+
+        & .trip-create {
+            margin: 1em auto 3em;
+            text-align: center;
+            max-width: 80%;
+            width: 90%;
+        }
+
+		& .form-create {
+			margin: 1em auto 3em;
+			text-align: center;
+			max-width: 80%;
+			width: 90%;
+		}
+	}
+
+
+}
+
+@media screen and ( max-width: 920px ) {
+  header .header-content {
+      & .navigation {
+          width: 90%;
+      }
+
+      & .headline {
+          width: 90%;
+      }
+  }
+}
+
+@media screen and ( max-width: 850px ) {
+	section .main-content {
+		flex-direction: column;
+
+		& .trip, .trip:nth-child(n) {
+			max-width: 80%;
+			margin: 0 auto 2em;
+			width: 90%;
+		}
+
+		& .form-display {
+			margin: 0 auto;
+			max-width: 90%;
+		}
+	}
+}
+
+@media screen and ( max-width: 570px ) {
+  header .header-content {
+width: 80%;
+    & .headline {
+      width: 90%;
+      margin-right: 1em;
+    }
+    & .navigation {
+      margin: 1px auto;
+      display: block;
+      width: 90%;
+
+      & ul {
+        margin: 1px auto;
+        width: 100%;
+      }
+
+      & ul li {
+        float: none;
+        margin-top: 1px;
+        width: 100%;
+      }
+    }
+  }
+}
+
